@@ -30,11 +30,11 @@ public class Library {
                 }
                 default -> System.out.println("Invalid choice.");
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
     static void addBook(Connection conn, Scanner scanner) throws SQLException {
         System.out.print("Enter Title: ");
         String title = scanner.nextLine();
@@ -62,7 +62,7 @@ public class Library {
                 System.out.printf("ID: %d | Title: %s | Year: %d | PublisherID: %d%n",
                         rs.getInt("BookID"),
                         rs.getString("Title");
-                        rs.getInt("PublishedYear"),
+                rs.getInt("PublishedYear"),
                         rs.getInt("PublisherID"));
             }
         }
@@ -82,3 +82,15 @@ public class Library {
             int rows = stmt.executeUpdate();
         }
     }
+
+    static void deleteBook(Connection conn, Scanner scanner) throws SQLException {
+        System.out.print("Enter Book ID to delete: ");
+        int id = scanner.nextInt();
+
+        String sql = "DELETE FROM Books WHERE BookID = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            int rows = stmt.executeUpdate();
+        }
+    }
+}
