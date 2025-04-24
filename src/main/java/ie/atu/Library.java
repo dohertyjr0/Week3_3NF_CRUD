@@ -67,3 +67,18 @@ public class Library {
             }
         }
     }
+
+    static void updateBook(Connection conn, Scanner scanner) throws SQLException {
+        System.out.print("Enter Book ID to update: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("New Title: ");
+        String title = scanner.nextLine();
+
+        String sql = "UPDATE Books SET Title = ? WHERE BookID = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, title);
+            stmt.setInt(2, id);
+            int rows = stmt.executeUpdate();
+        }
+    }
