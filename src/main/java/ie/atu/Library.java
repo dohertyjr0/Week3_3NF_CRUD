@@ -1,9 +1,6 @@
 package ie.atu;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Scanner;
 
 public class Library {
@@ -54,5 +51,19 @@ public class Library {
             stmt.setInt(3, publisherId);
             stmt.executeUpdate();
             System.out.println("Book added!");
+        }
+    }
+
+    static void viewBooks(Connection conn) throws SQLException {
+        String sql = "SELECT * FROM Books";
+        try (Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                System.out.printf("ID: %d | Title: %s | Year: %d | PublisherID: %d%n",
+                        rs.getInt("BookID"),
+                        rs.getString("Title");
+                        rs.getInt("PublishedYear"),
+                        rs.getInt("PublisherID"));
+            }
         }
     }
