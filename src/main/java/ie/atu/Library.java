@@ -18,17 +18,26 @@ public class Library {
                 System.out.println("\n1. Add Book\n2. View Books\n3. Update Book\n4. Delete Book\n5. Exit");
                 int choice = scanner.nextInt();
                 scanner.nextLine();
-            }
-            switch (choice) {
-                case 1 -> addBook(conn, scanner);
-                case 2 -> viewBooks(conn);
-                case 3 -> updateBook(conn, scanner);
-                case 4 -> deleteBook(conn, scanner);
-                case 5 -> {
-                    System.out.println("Exiting...");
-                    return;
+
+                switch (choice) {
+                    case 1:
+                        addBook(conn, scanner);
+                        break;
+                    case 2:
+                        viewBooks(conn);
+                        break;
+                    case 3:
+                        updateBook(conn, scanner);
+                        break;
+                    case 4:
+                        deleteBook(conn, scanner);
+                        break;
+                    case 5:
+                        System.out.println("Exiting...");
+                        return;
+                    default:
+                        System.out.println("Invalid choice.");
                 }
-                default -> System.out.println("Invalid choice.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -44,7 +53,7 @@ public class Library {
         int publisherId = scanner.nextInt();
 
 
-        String sql = "INSERT INTO Books (Title, ISBN, PublishedYear, PublisherID) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO Books (Title, PublishedYear, PublisherID) VALUES (?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, title);
             stmt.setInt(2, year);
@@ -61,8 +70,8 @@ public class Library {
             while (rs.next()) {
                 System.out.printf("ID: %d | Title: %s | Year: %d | PublisherID: %d%n",
                         rs.getInt("BookID"),
-                        rs.getString("Title");
-                rs.getInt("PublishedYear"),
+                        rs.getString("Title"),
+                        rs.getInt("PublishedYear"),
                         rs.getInt("PublisherID"));
             }
         }
